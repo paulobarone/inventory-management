@@ -1,7 +1,13 @@
 @import "tailwindcss";
 
+body {
+  background-color: #F0F1F3;
+}
+
 * {
-  padding: 0px;
-  margin: 0px;
-  box-sizing: border-box;
+  font-family: 'Inter', 'sans-serif';
+}
+
+@theme {
+  --font-inter: "Inter", "sans-serif";
 }
