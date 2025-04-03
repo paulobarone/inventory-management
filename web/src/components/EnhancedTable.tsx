@@ -204,7 +204,7 @@ function EnhancedTableToolbar(props: EnhancedTableToolbarProps) {
           variant="subtitle1"
           component="div"
         >
-          {numSelected} selected
+          {numSelected > 1 ? `${numSelected} produtos selecionados` : `${numSelected} produto selecionado`}
         </Typography>
       ) : (
         <Typography
