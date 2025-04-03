@@ -17,6 +17,7 @@ import IconButton from '@mui/material/IconButton';
 import Tooltip from '@mui/material/Tooltip';
 import DeleteIcon from '@mui/icons-material/Delete';
 import AddIcon from '@mui/icons-material/Add';
+import CachedIcon from '@mui/icons-material/Cached';
 import { visuallyHidden } from '@mui/utils';
 import Button from './Button';
 import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
@@ -223,11 +224,18 @@ function EnhancedTableToolbar(props: EnhancedTableToolbarProps) {
           </IconButton>
         </Tooltip>
       ) : (
-        <Tooltip title="Adicionar Produto">
-          <IconButton>
-            <AddIcon />
-          </IconButton>
-        </Tooltip>
+        <div className='flex gap-2'>
+          <Tooltip title="Atualizar">
+            <IconButton>
+              <CachedIcon />
+            </IconButton>
+          </Tooltip>
+          <Tooltip title="Adicionar Produto">
+            <IconButton>
+              <AddIcon />
+            </IconButton>
+          </Tooltip>
+        </div>
       )}
     </Toolbar>
   );
