@@ -40,10 +40,10 @@ function createData(
   price: number,
   quantity: number,
   option: React.ReactNode = (
-    <>
+    <div className='flex gap-2 justify-end'>
       <Button className="bg-rose-400"><DeleteOutlineIcon /></Button>
       <Button className="bg-gray-200"><EditIcon /></Button>
-    </>
+    </div>
   )
 ): Data {
   return {
@@ -353,7 +353,6 @@ export default function EnhancedTable() {
                     </TableCell>
                     <TableCell align="right">{row.quantity}</TableCell>
                     <TableCell
-                      sx={{ display: "flex", flex: "row", gap: "8px" }}
                       align="right"
                     >
                       {row.option}
