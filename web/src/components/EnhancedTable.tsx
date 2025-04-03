@@ -26,6 +26,7 @@ import { products } from '../data/products';
 interface Data {
   id: number;
   name: string;
+  category: string;
   price: number;
   quantity: number;
   option: React.ReactNode;
@@ -34,6 +35,7 @@ interface Data {
 function createData(
   id: number,
   name: string,
+  category: string,
   price: number,
   quantity: number,
   option: React.ReactNode = (
@@ -46,6 +48,7 @@ function createData(
   return {
     id,
     name,
+    category,
     price,
     quantity,
     option
@@ -53,7 +56,7 @@ function createData(
 }
 
 const rows = products.map((product) =>
-  createData(product.id, product.name, product.price, product.quantity)
+  createData(product.id, product.name, product.category, product.price, product.quantity)
 );
 
 function descendingComparator<T>(a: T, b: T, orderBy: keyof T) {
@@ -90,6 +93,12 @@ const headCells: readonly HeadCell[] = [
     numeric: false,
     disablePadding: true,
     label: 'Produto',
+  },
+  {
+    id: 'category',
+    numeric: false,
+    disablePadding: false,
+    label: 'Categoria',
   },
   {
     id: 'price',
@@ -141,7 +150,7 @@ function EnhancedTableHead(props: EnhancedTableProps) {
         {headCells.map((headCell) => (
           <TableCell
             key={headCell.id}
-            align={headCell.numeric ? 'right' : 'left'}
+            align={headCell.id === 'name' ? 'left' : 'right'}
             padding={headCell.disablePadding ? 'none' : 'normal'}
             sortDirection={headCell.id !== 'option' && orderBy === headCell.id ? order : false}
           >
@@ -308,9 +317,8 @@ export default function EnhancedTable() {
               rowCount={rows.length}
             />
             <TableBody>
-              {visibleRows.map((row, index) => {
+              {visibleRows.map((row) => {
                 const isItemSelected = selected.includes(row.id);
-                const labelId = `enhanced-table-checkbox-${index}`;
 
                 return (
                   <TableRow
@@ -326,13 +334,11 @@ export default function EnhancedTable() {
                         checked={isItemSelected}
                       />
                     </TableCell>
-                    <TableCell
-                      component="th"
-                      id={labelId}
-                      scope="row"
-                      padding="none"
-                    >
+                    <TableCell>
                       {row.name}
+                    </TableCell>
+                    <TableCell align='right'>
+                      {row.category}
                     </TableCell>
                     <TableCell align="right">
                       {row.price.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}
