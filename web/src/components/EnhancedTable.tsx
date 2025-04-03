@@ -21,6 +21,7 @@ import { visuallyHidden } from '@mui/utils';
 import Button from './Button';
 import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
 import EditIcon from "@mui/icons-material/Edit";
+import { products } from '../data/products';
 
 interface Data {
   id: number;
@@ -51,18 +52,9 @@ function createData(
   };
 }
 
-const rows = [
-  createData(1, "Produto 1", 10, 5),
-  createData(2, "Produto 2", 15, 3),
-  createData(3, "Produto 3", 20, 5),
-  createData(4, "Produto 4", 35, 1),
-  createData(5, "Produto 5", 1230, 55),
-  createData(6, "Produto 6", 614, 5),
-  createData(7, "Produto 7", 10123, 23),
-  createData(8, "Produto 8", 10123, 52),
-  createData(9, "Produto 9", 1520, 55),
-  createData(10, "Produto 10", 1230.23, 4)
-];
+const rows = products.map((product) =>
+  createData(product.id, product.name, product.price, product.quantity)
+);
 
 function descendingComparator<T>(a: T, b: T, orderBy: keyof T) {
   if (b[orderBy] < a[orderBy]) {
