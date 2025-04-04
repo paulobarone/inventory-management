@@ -1,18 +1,10 @@
-import { Product } from "../types/Product";
+import { Product, ProductTableActions } from "../types/Product";
 import { products as productsData } from "../data/products";
-import { useState } from "react";
-
-interface ProductTableActions {
-  products: Product[];
-  setProducts: React.Dispatch<React.SetStateAction<Product[]>>;
-  deleteProducts: (productsIds: number[]) => void;
-  addProduct: (newProduct: Product) => void;
-  editProduct: (productId: number) => void;
-  updateProducts: () => void;
-}
+import { useContext } from "react";
+import { ProductContext } from "../context/ProductContext";
 
 export default function useProductTableActions(): ProductTableActions {
-  const [products, setProducts] = useState<Product[]>([]);
+  const { products, setProducts } = useContext(ProductContext);
 
   const deleteProducts = (ids: number[]) => {
     if(ids.length === 1) {
@@ -37,6 +29,7 @@ export default function useProductTableActions(): ProductTableActions {
   const updateProducts = () => {
     // Atualizar os produtos da lista
     setProducts(productsData);
+
     console.log(products);
     console.log('Produtos atualizados');
   }

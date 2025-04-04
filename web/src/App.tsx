@@ -1,11 +1,17 @@
 import EnhancedTable from "./components/EnhancedTable";
+import DialogProvider from "./context/DialogProvider";
+import ProductProvider from "./context/ProductProvider";
 
 export default function App() {
   return (
-    <div className="h-screen p-2">
-      <div className="bg-gray-100 rounded-lg w-full h-full p-4 flex justify-center">
-        <EnhancedTable />
+    <DialogProvider>
+      <div className="h-screen p-2">
+        <div className="bg-gray-100 rounded-lg w-full h-full p-4 flex justify-center">
+          <ProductProvider>
+            <EnhancedTable />
+          </ProductProvider>
+        </div>
       </div>
-    </div>
+    </DialogProvider>
   );
 }

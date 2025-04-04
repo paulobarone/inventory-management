@@ -1,11 +1,7 @@
 import React, { useState, useCallback, useMemo } from 'react';
 import { DialogContext } from './dialogContext';
 import ConfirmationDialog from '../components/ConfirmationDialog';
-import { DialogConfig, DialogContextProps } from '../types/Dialog';
-
-interface DialogProviderProps {
-  children: React.ReactNode;
-}
+import { DialogConfig, DialogContextProps, DialogProviderProps } from '../types/Dialog';
 
 const DialogProvider: React.FC<DialogProviderProps> = ({ children }) => {
   const [isOpen, setIsOpen] = useState(false);

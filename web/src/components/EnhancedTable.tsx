@@ -21,10 +21,11 @@ import { visuallyHidden } from '@mui/utils';
 import Button from './Button';
 import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
 import EditIcon from "@mui/icons-material/Edit";
-import { useEffect, useMemo, useState } from 'react';
+import { useContext, useEffect, useMemo, useState } from 'react';
 import useDialog from '../hooks/useDialog';
 import useProductTableActions from '../hooks/useProductTableActions';
 import { Product } from '../types/Product';
+import { ProductContext } from '../context/ProductContext';
 
 function descendingComparator<T>(a: T, b: T, orderBy: keyof T) {
   if (b[orderBy] < a[orderBy]) {
@@ -144,26 +145,8 @@ interface EnhancedTableToolbarProps {
 }
 
 const EnhancedTableToolbar = ({numSelected, selected}: EnhancedTableToolbarProps) => {
-  const { addProduct, deleteProducts, updateProducts } = useProductTableActions();
+  const { deleteProducts, updateProducts } = useProductTableActions();
   const { openDialog, closeDialog } = useDialog();
-
-  const addProductDialog = (product: Product) => {
-    openDialog({
-      title: 'Confirmar Adição',
-      description: 'Deseja adicionar este item?',
-      confirmButtonText: 'Adicionar',
-      cancelButtonText: 'Cancelar',
-      onConfirm: () => {
-        addProduct(product);
-        closeDialog();
-        console.log('Item adicionado');
-      },
-      onCancel: () => {
-        closeDialog();
-        console.log('Adição cancelada');
-      },
-    });
-  };
 
   const removeProductDialog = (productsIds: number[]) => {
     const isPlural = productsIds.length > 1;
@@ -240,8 +223,9 @@ const EnhancedTableToolbar = ({numSelected, selected}: EnhancedTableToolbarProps
     </Toolbar>
   );
 }
+
 export default function EnhancedTable() {
-  const { products } = useProductTableActions();
+  const { products } = useContext(ProductContext);
   const [rows, setRows] = useState<Product[]>([]);
   const [order, setOrder] = useState<Order>('asc');
   const [orderBy, setOrderBy] = useState<keyof Product>('name');
@@ -270,10 +254,6 @@ export default function EnhancedTable() {
       console.log('Nenhum produto encontrado');
     }
   }, [products])
-
-  useEffect(() => {
-    console.log(rows);
-  }, [rows])
 
   const handleRequestSort = (
     _event: React.MouseEvent<unknown>,
@@ -330,7 +310,7 @@ export default function EnhancedTable() {
       [...rows]
         .sort(getComparator(order, orderBy))
         .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage),
-    [order, orderBy, page, rowsPerPage],
+    [order, orderBy, page, rowsPerPage, rows],
   );
 
   return (

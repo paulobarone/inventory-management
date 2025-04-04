@@ -1,3 +1,7 @@
+export interface DialogProviderProps {
+  children: React.ReactNode;
+}
+
 export interface DialogContextProps {
   isOpen: boolean;
   title: string;
