@@ -21,44 +21,10 @@ import { visuallyHidden } from '@mui/utils';
 import Button from './Button';
 import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
 import EditIcon from "@mui/icons-material/Edit";
-import { products } from '../data/products';
-import { useMemo, useState } from 'react';
-
-interface Data {
-  id: number;
-  name: string;
-  category: string;
-  price: number;
-  quantity: number;
-  option: React.ReactNode;
-}
-
-function createData(
-  id: number,
-  name: string,
-  category: string,
-  price: number,
-  quantity: number,
-  option: React.ReactNode = (
-    <div className='flex gap-2 justify-end'>
-      <Button className="bg-rose-400"><DeleteOutlineIcon /></Button>
-      <Button className="bg-gray-200"><EditIcon /></Button>
-    </div>
-  )
-): Data {
-  return {
-    id,
-    name,
-    category,
-    price,
-    quantity,
-    option
-  };
-}
-
-const rows = products.map((product) =>
-  createData(product.id, product.name, product.category, product.price, product.quantity)
-);
+import { useEffect, useMemo, useState } from 'react';
+import useDialog from '../hooks/useDialog';
+import useProductTableActions from '../hooks/useProductTableActions';
+import { Product } from '../types/Product';
 
 function descendingComparator<T>(a: T, b: T, orderBy: keyof T) {
   if (b[orderBy] < a[orderBy]) {
@@ -72,10 +38,10 @@ function descendingComparator<T>(a: T, b: T, orderBy: keyof T) {
 
 type Order = 'asc' | 'desc';
 
-function getComparator<Key extends keyof Data>(
+function getComparator<Key extends Exclude<keyof Product, 'option'>>(
   order: Order,
   orderBy: Key,
-): (a: Data, b: Data) => number {
+): (a: Product, b: Product) => number {
   return order === 'desc'
     ? (a, b) => descendingComparator(a, b, orderBy)
     : (a, b) => -descendingComparator(a, b, orderBy);
@@ -83,7 +49,7 @@ function getComparator<Key extends keyof Data>(
 
 interface HeadCell {
   disablePadding: boolean;
-  id: keyof Data;
+  id: keyof Product;
   label?: string;
   numeric: boolean;
 }
@@ -112,17 +78,12 @@ const headCells: readonly HeadCell[] = [
     numeric: true,
     disablePadding: false,
     label: 'Quantidade',
-  },
-  {
-    id: 'option',
-    numeric: false,
-    disablePadding: false,
   }
 ];
 
 interface EnhancedTableProps {
   numSelected: number;
-  onRequestSort: (event: React.MouseEvent<unknown>, property: keyof Data) => void;
+  onRequestSort: (event: React.MouseEvent<unknown>, property: keyof Product) => void;
   onSelectAllClick: (event: React.ChangeEvent<HTMLInputElement>) => void;
   order: Order;
   orderBy: string;
@@ -133,7 +94,7 @@ function EnhancedTableHead(props: EnhancedTableProps) {
   const { onSelectAllClick, order, orderBy, numSelected, rowCount, onRequestSort } =
     props;
   const createSortHandler =
-    (property: keyof Data) => (event: React.MouseEvent<unknown>) => {
+    (property: keyof Product) => (event: React.MouseEvent<unknown>) => {
       onRequestSort(event, property);
     };
 
@@ -153,29 +114,25 @@ function EnhancedTableHead(props: EnhancedTableProps) {
             key={headCell.id}
             align={headCell.id === 'name' ? 'left' : 'right'}
             padding={headCell.disablePadding ? 'none' : 'normal'}
-            sortDirection={headCell.id !== 'option' && orderBy === headCell.id ? order : false}
+            sortDirection={orderBy === headCell.id ? order : false}
           >
-            {headCell.id !== 'option' ? (
-              <TableSortLabel
-                active={orderBy === headCell.id}
-                direction={orderBy === headCell.id ? order : 'asc'}
-                onClick={createSortHandler(headCell.id)}
-              >
-                {headCell.label}
-                {orderBy === headCell.id ? (
-                  <Box component="span" sx={visuallyHidden}>
-                    {order === 'desc' ? 'sorted descending' : 'sorted ascending'}
-                  </Box>
-                ) : null}
-              </TableSortLabel>
-            ) : (
-              <TableSortLabel
-              >
-                {headCell.label}
-              </TableSortLabel>
-            )}
+            <TableSortLabel
+              active={orderBy === headCell.id}
+              direction={orderBy === headCell.id ? order : 'asc'}
+              onClick={createSortHandler(headCell.id)}
+            >
+              {headCell.label}
+              {orderBy === headCell.id ? (
+                <Box component="span" sx={visuallyHidden}>
+                  {order === 'desc' ? 'sorted descending' : 'sorted ascending'}
+                </Box>
+              ) : null}
+            </TableSortLabel>
           </TableCell>
         ))}
+        <TableCell>
+          
+        </TableCell>
       </TableRow>
     </TableHead>
   );
@@ -183,10 +140,51 @@ function EnhancedTableHead(props: EnhancedTableProps) {
 
 interface EnhancedTableToolbarProps {
   numSelected: number;
+  readonly selected: number[];
 }
 
-function EnhancedTableToolbar(props: EnhancedTableToolbarProps) {
-  const { numSelected } = props;
+const EnhancedTableToolbar = ({numSelected, selected}: EnhancedTableToolbarProps) => {
+  const { addProduct, deleteProducts, updateProducts } = useProductTableActions();
+  const { openDialog, closeDialog } = useDialog();
+
+  const addProductDialog = (product: Product) => {
+    openDialog({
+      title: 'Confirmar Adição',
+      description: 'Deseja adicionar este item?',
+      confirmButtonText: 'Adicionar',
+      cancelButtonText: 'Cancelar',
+      onConfirm: () => {
+        addProduct(product);
+        closeDialog();
+        console.log('Item adicionado');
+      },
+      onCancel: () => {
+        closeDialog();
+        console.log('Adição cancelada');
+      },
+    });
+  };
+
+  const removeProductDialog = (productsIds: number[]) => {
+    const isPlural = productsIds.length > 1;
+
+    openDialog({
+      title: 'Confirmar Exclusão',
+      description: isPlural ? 'Tem certeza que deseja apagar este item?' : `Tem certeza que deseja apagar todos os ${productsIds.length}?`,
+      confirmButtonText: 'Apagar',
+      cancelButtonText: 'Cancelar',
+      onConfirm: () => {
+        deleteProducts(productsIds);
+        closeDialog();
+        console.log('Item(s) excluído(s)');
+      },
+      onCancel: () => {
+        closeDialog();
+        console.log('Exclusão cancelada');
+      },
+    });
+  };
+
   return (
     <Toolbar
       sx={[
@@ -220,14 +218,14 @@ function EnhancedTableToolbar(props: EnhancedTableToolbarProps) {
         </Typography>
       )}
       {numSelected > 0 ? (
-        <Tooltip title="Deletar">
+        <Tooltip title="Deletar" onClick={() => removeProductDialog(selected)}>
           <IconButton>
             <DeleteIcon />
           </IconButton>
         </Tooltip>
       ) : (
         <div className='flex gap-2'>
-          <Tooltip title="Atualizar">
+          <Tooltip title="Atualizar" onClick={updateProducts}>
             <IconButton>
               <CachedIcon />
             </IconButton>
@@ -243,19 +241,44 @@ function EnhancedTableToolbar(props: EnhancedTableToolbarProps) {
   );
 }
 export default function EnhancedTable() {
+  const { products } = useProductTableActions();
+  const [rows, setRows] = useState<Product[]>([]);
   const [order, setOrder] = useState<Order>('asc');
-  const [orderBy, setOrderBy] = useState<keyof Data>('name');
-  const [selected, setSelected] = useState<readonly number[]>([]);
+  const [orderBy, setOrderBy] = useState<keyof Product>('name');
+  const [selected, setSelected] = useState<number[]>([]);
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
 
+  useEffect(() => {
+    if(products.length > 0) {
+      setRows(
+        products.map((product) => ({
+          id: product.id,
+          name: product.name,
+          category: product.category,
+          price: product.price,
+          quantity: product.quantity,
+          option: (
+            <div className='flex gap-2 justify-end'>
+              <Button className="bg-rose-400"><DeleteOutlineIcon /></Button>
+              <Button className="bg-gray-200"><EditIcon /></Button>
+            </div>
+          ),
+        }))
+      );
+    } else {
+      console.log('Nenhum produto encontrado');
+    }
+  }, [products])
+
+  useEffect(() => {
+    console.log(rows);
+  }, [rows])
+
   const handleRequestSort = (
     _event: React.MouseEvent<unknown>,
-    property: keyof Data,
+    property: keyof Product,
   ) => {
-    if (property === 'option') {
-      return;
-    }
     const isAsc = orderBy === property && order === 'asc';
     setOrder(isAsc ? 'desc' : 'asc');
     setOrderBy(property);
@@ -272,7 +295,7 @@ export default function EnhancedTable() {
 
   const handleClick = (_event: React.MouseEvent<unknown>, id: number) => {
     const selectedIndex = selected.indexOf(id);
-    let newSelected: readonly number[] = [];
+    let newSelected: number[] = [];
 
     if (selectedIndex === -1) {
       newSelected = newSelected.concat(selected, id);
@@ -286,6 +309,7 @@ export default function EnhancedTable() {
         selected.slice(selectedIndex + 1),
       );
     }
+
     setSelected(newSelected);
   };
 
@@ -311,8 +335,8 @@ export default function EnhancedTable() {
 
   return (
     <Box sx={{ width: '90%', maxWidth: '1500px' }}>
-      <Paper sx={{ width: '100%', mb: 2 }}>
-        <EnhancedTableToolbar numSelected={selected.length} />
+      <Paper>
+        <EnhancedTableToolbar numSelected={selected.length} selected={selected} />
         <TableContainer>
           <Table
             sx={{ minWidth: 750 }}
@@ -327,7 +351,7 @@ export default function EnhancedTable() {
               rowCount={rows.length}
             />
             <TableBody>
-              {visibleRows.map((row) => {
+              {visibleRows.length >= 1 && visibleRows.map((row) => {
                 const isItemSelected = selected.includes(row.id);
 
                 return (
@@ -356,10 +380,11 @@ export default function EnhancedTable() {
                       {row.price.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}
                     </TableCell>
                     <TableCell align="right">{row.quantity}</TableCell>
-                    <TableCell
-                      align="right"
-                    >
-                      {row.option}
+                    <TableCell align="right">
+                      <div className='flex gap-2 justify-end'>
+                        <Button className="bg-rose-400"><DeleteOutlineIcon /></Button>
+                        <Button className="bg-gray-200"><EditIcon /></Button>
+                      </div>
                     </TableCell>
                   </TableRow>
                 );
