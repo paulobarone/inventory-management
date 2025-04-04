@@ -1,4 +1,3 @@
-import * as React from 'react';
 import { alpha } from '@mui/material/styles';
 import Box from '@mui/material/Box';
 import Table from '@mui/material/Table';
@@ -23,6 +22,7 @@ import Button from './Button';
 import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
 import EditIcon from "@mui/icons-material/Edit";
 import { products } from '../data/products';
+import { useMemo, useState } from 'react';
 
 interface Data {
   id: number;
@@ -180,9 +180,11 @@ function EnhancedTableHead(props: EnhancedTableProps) {
     </TableHead>
   );
 }
+
 interface EnhancedTableToolbarProps {
   numSelected: number;
 }
+
 function EnhancedTableToolbar(props: EnhancedTableToolbarProps) {
   const { numSelected } = props;
   return (
@@ -241,11 +243,11 @@ function EnhancedTableToolbar(props: EnhancedTableToolbarProps) {
   );
 }
 export default function EnhancedTable() {
-  const [order, setOrder] = React.useState<Order>('asc');
-  const [orderBy, setOrderBy] = React.useState<keyof Data>('name');
-  const [selected, setSelected] = React.useState<readonly number[]>([]);
-  const [page, setPage] = React.useState(0);
-  const [rowsPerPage, setRowsPerPage] = React.useState(10);
+  const [order, setOrder] = useState<Order>('asc');
+  const [orderBy, setOrderBy] = useState<keyof Data>('name');
+  const [selected, setSelected] = useState<readonly number[]>([]);
+  const [page, setPage] = useState(0);
+  const [rowsPerPage, setRowsPerPage] = useState(10);
 
   const handleRequestSort = (
     _event: React.MouseEvent<unknown>,
@@ -299,7 +301,7 @@ export default function EnhancedTable() {
   const emptyRows =
     page > 0 ? Math.max(0, (1 + page) * rowsPerPage - rows.length) : 0;
 
-  const visibleRows = React.useMemo(
+  const visibleRows = useMemo(
     () =>
       [...rows]
         .sort(getComparator(order, orderBy))
@@ -342,7 +344,9 @@ export default function EnhancedTable() {
                         checked={isItemSelected}
                       />
                     </TableCell>
-                    <TableCell>
+                    <TableCell
+                      sx={{ padding: '0px' }}
+                    >
                       {row.name}
                     </TableCell>
                     <TableCell align='right'>
