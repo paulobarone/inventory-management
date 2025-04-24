@@ -1,16 +1,42 @@
+# Logs
+*.log
+logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+# Node.js
+node_modules
+dist
+dist-ssr
+.local
+
+# Editor directories and files
+.vscode/*
+!.vscode/extensions.json
+.idea/
+.DS_Store
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+
+# Java - Maven
 target/
 !.mvn/wrapper/maven-wrapper.jar
 !**/src/main/**/target/
 !**/src/test/**/target/
 
 ### IntelliJ IDEA ###
+*.iws
+*.iml
+*.ipr
 .idea/modules.xml
 .idea/jarRepositories.xml
 .idea/compiler.xml
 .idea/libraries/
-*.iws
-*.iml
-*.ipr
 
 ### Eclipse ###
 .apt_generated
@@ -30,12 +56,6 @@ target/
 build/
 !**/src/main/**/build/
 !**/src/test/**/build/
-
-### VS Code ###
-.vscode/
-
-### Mac OS ###
-.DS_Store
 
 ### Environment Variables ###
 .env
