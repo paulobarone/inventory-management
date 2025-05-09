@@ -3,5 +3,9 @@ import { ProductContextProps } from "../types/Product";
 
 export const ProductContext = createContext<ProductContextProps>({
   products: [],
-  setProducts: () => {}
+  setProducts: () => {},
+  selectedProducts: [],
+  setSelectedProducts: () => {},
+  selectAll: false,
+  setSelectAll: () => {},
 });

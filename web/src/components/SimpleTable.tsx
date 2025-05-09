@@ -1,25 +1,13 @@
-import React, { useState } from 'react';
+import { useContext, useState } from 'react';
 import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
 import EditIcon from "@mui/icons-material/Edit";
 import Button from './Button';
 import KeyboardArrowLeftIcon from '@mui/icons-material/KeyboardArrowLeft';
 import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
+import { ProductContext } from '../context/ProductContext';
 
-interface Product {
-  id: number;
-  name: string;
-  category: string;
-  price: number;
-  quantity: number;
-}
-
-interface SimpleTableProps {
-  products: Product[];
-}
-
-const SimpleTable: React.FC<SimpleTableProps> = ({ products }) => {
-  const [selectedProducts, setSelectedProducts] = useState<number[]>([]);
-  const [selectAll, setSelectAll] = useState<boolean>(false);
+const SimpleTable = () => {
+  const { products, selectedProducts, setSelectedProducts, selectAll, setSelectAll } = useContext(ProductContext);
   const [currentPage, setCurrentPage] = useState<number>(1);
   const productsPerPage = 10;
 
@@ -31,7 +19,7 @@ const SimpleTable: React.FC<SimpleTableProps> = ({ products }) => {
 
   const handleCheckboxChange = (productId: number) => {
     if (selectedProducts.includes(productId)) {
-      setSelectedProducts(selectedProducts.filter((id) => id !== productId));
+      setSelectedProducts(selectedProducts.filter((id: number) => id !== productId));
     } else {
       setSelectedProducts([...selectedProducts, productId]);
     }
@@ -40,7 +28,7 @@ const SimpleTable: React.FC<SimpleTableProps> = ({ products }) => {
   const handleSelectAllChange = () => {
     setSelectAll(!selectAll);
     if (!selectAll) {
-      setSelectedProducts(currentProducts.map((product) => product.id));
+      setSelectedProducts(products.map((product) => product.id));
     } else {
       setSelectedProducts([]);
     }
@@ -141,7 +129,7 @@ const SimpleTable: React.FC<SimpleTableProps> = ({ products }) => {
               <button
                 onClick={handlePrevPage}
                 disabled={currentPage === 1}
-                className="relative cursor-pointer inline-flex items-center px-2 py-2 rounded-l-md border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50"
+                className="relative disabled:opacity-50 cursor-pointer disabled:cursor-auto inline-flex items-center px-2 py-2 rounded-l-md border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50"
               >
                 <span className="sr-only">Anterior</span>
                 <KeyboardArrowLeftIcon />
@@ -152,7 +140,7 @@ const SimpleTable: React.FC<SimpleTableProps> = ({ products }) => {
               <button
                 onClick={handleNextPage}
                 disabled={currentPage === totalPages}
-                className="relative cursor-pointer inline-flex items-center px-2 py-2 rounded-r-md border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50"
+                className="relative disabled:opacity-50 cursor-pointer disabled:cursor-auto inline-flex items-center px-2 py-2 rounded-r-md border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50"
               >
                 <span className="sr-only">Próxima</span>
                 <KeyboardArrowRightIcon />

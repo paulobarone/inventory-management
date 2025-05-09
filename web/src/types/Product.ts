@@ -13,6 +13,10 @@ export interface ProductProviderProps {
 export interface ProductContextProps {
   products: Product[] | [];
   setProducts: (products: Product[] | []) => void;
+  selectedProducts: number[];
+  setSelectedProducts: (selectedProducts: number[]) => void;
+  selectAll: boolean;
+  setSelectAll: (selectAll: boolean) => void;
 }
 
 export interface ProductTableActions {
