@@ -1,5 +1,5 @@
 import { useContext } from 'react';
-import { DialogContext } from '../context/dialogContext';
+import { DialogContext } from '../context/DialogContext';
 import { DialogContextProps } from '../types/Dialog';
 
 const useDialog = (): DialogContextProps => {

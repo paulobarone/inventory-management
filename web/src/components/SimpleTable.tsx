@@ -79,7 +79,7 @@ const SimpleTable = () => {
           </thead>
           <tbody className="bg-white divide-y divide-gray-200">
             {currentProducts.map((product) => (
-              <tr key={product.id} className={selectedProducts.includes(product.id) ? 'bg-gray-100' : ''}>
+              <tr key={product.id} className={selectedProducts.includes(product.id) ? 'bg-rose-50' : ''}>
                 <td className="px-6 py-2 md:py-4 whitespace-nowrap">
                   <input
                     type="checkbox"
