@@ -1,5 +1,5 @@
 import React, { useState, useCallback, useMemo } from 'react';
-import { DialogContext } from './dialogContext';
+import { DialogContext } from './DialogContext';
 import ConfirmationDialog from '../components/ConfirmationDialog';
 import { DialogConfig, DialogContextProps, DialogProviderProps } from '../types/Dialog';
 
