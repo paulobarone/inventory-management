@@ -102,7 +102,7 @@ const SimpleTable: React.FC<SimpleTableProps> = ({ products }) => {
                 </td>
                 <td className="px-6 py-2 md:py-4 whitespace-nowrap text-sm text-gray-900">{product.name}</td>
                 <td className="px-6 py-2 md:py-4 whitespace-nowrap text-sm text-gray-500">{product.category}</td>
-                <td className="px-6 py-2 md:py-4 whitespace-nowrap text-sm text-gray-900">R$ {product.price.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}</td>
+                <td className="px-6 py-2 md:py-4 whitespace-nowrap text-sm text-gray-900">{product.price.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}</td>
                 <td className="px-6 py-2 md:py-4 whitespace-nowrap text-sm text-gray-500">{product.quantity}</td>
                 <td className="px-6 py-2 md:py-4 flex gap-2 whitespace-nowrap text-right text-sm font-medium">
                   <Button className="bg-rose-400"><DeleteOutlineIcon /></Button>
