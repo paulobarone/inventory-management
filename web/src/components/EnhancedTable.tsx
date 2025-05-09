@@ -19,8 +19,6 @@ import AddIcon from '@mui/icons-material/Add';
 import CachedIcon from '@mui/icons-material/Cached';
 import { visuallyHidden } from '@mui/utils';
 import Button from './Button';
-import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
-import EditIcon from "@mui/icons-material/Edit";
 import { useContext, useEffect, useMemo, useState } from 'react';
 import useDialog from '../hooks/useDialog';
 import useProductTableActions from '../hooks/useProductTableActions';
@@ -147,6 +145,10 @@ interface EnhancedTableToolbarProps {
 const EnhancedTableToolbar = ({numSelected, selected}: EnhancedTableToolbarProps) => {
   const { deleteProducts, updateProducts } = useProductTableActions();
   const { openDialog, closeDialog } = useDialog();
+
+  useEffect(() => {
+    updateProducts();
+  }, [updateProducts])
 
   const removeProductDialog = (productsIds: number[]) => {
     const isPlural = productsIds.length > 1;
