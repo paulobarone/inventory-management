@@ -18,12 +18,6 @@ export default function App() {
 
   const contextValue = useMemo(() => ({ products, setProducts, selectedProducts, setSelectedProducts, selectAll, setSelectAll }), [products, selectedProducts, selectAll]);
 
-  useEffect(() => {
-    console.log("Products: ", products.length);
-    console.log("Selected Products: ", selectedProducts.length);
-    console.log("Select All: ", selectAll);
-  }, [products, selectedProducts, selectAll]);
-
   return (
     <ProductContext.Provider value={contextValue}>
       <DialogProvider>
