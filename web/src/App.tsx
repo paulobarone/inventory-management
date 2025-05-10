@@ -1,5 +1,5 @@
 import { IconButton, Tooltip } from "@mui/material";
-import { useEffect, useMemo, useState } from "react";
+import { useMemo, useState } from "react";
 import SimpleTable from "./components/SimpleTable";
 import DialogProvider from "./context/DialogProvider";
 import AddIcon from '@mui/icons-material/Add';
