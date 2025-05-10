@@ -12,6 +12,10 @@ const ProductProvider: React.FC<ProductProviderProps> = ({ children }) => {
     console.log('Adicionando produto:', newProduct);
   };
 
+  const editProduct = (productId: number) => {
+    console.log('Editando produto com ID:', productId);
+  }
+
   const deleteProducts = (productsId: number[]) => {
     console.log('Deletando produtos com ID:', productsId);
   };
@@ -29,6 +33,7 @@ const ProductProvider: React.FC<ProductProviderProps> = ({ children }) => {
     selectAll,
     setSelectAll,
     addProduct,
+    editProduct,
     deleteProducts,
     updateProducts
   }), [products, selectedProducts, selectAll]);
