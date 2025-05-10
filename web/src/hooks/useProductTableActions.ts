@@ -23,6 +23,7 @@ export default function useProductTableActions(): ProductTableActions {
   };
 
   const updateProducts = () => {
+    console.log('Produtos atualizados');
     setProducts(productsData);
   }
 
