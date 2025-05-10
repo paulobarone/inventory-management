@@ -4,7 +4,7 @@ import EditIcon from "@mui/icons-material/Edit";
 import Button from './Button';
 import KeyboardArrowLeftIcon from '@mui/icons-material/KeyboardArrowLeft';
 import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
-import { ProductContext } from '../context/ProductContext';
+import { ProductContext } from '../context/Product/ProductContext';
 
 const SimpleTable = () => {
   const { products, selectedProducts, setSelectedProducts, selectAll, setSelectAll } = useContext(ProductContext);

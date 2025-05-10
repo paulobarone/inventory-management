@@ -17,6 +17,7 @@ export interface ProductContextProps {
   setSelectedProducts: (selectedProducts: number[]) => void;
   selectAll: boolean;
   setSelectAll: (selectAll: boolean) => void;
+  updateProducts: () => void;
 }
 
 export interface ProductTableActions {

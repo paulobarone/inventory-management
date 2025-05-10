@@ -1,7 +1,7 @@
 import SimpleTable from "./components/SimpleTable";
-import DialogProvider from "./context/DialogProvider";
+import DialogProvider from "./context/Dialog/DialogProvider";
 import TopHeader from "./components/TopHeader";
-import ProductProvider from "./context/ProductProvider";
+import ProductProvider from "./context/Product/ProductProvider";
 
 export default function App() {
   return (

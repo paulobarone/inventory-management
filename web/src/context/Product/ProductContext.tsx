@@ -1,5 +1,5 @@
 import { createContext } from "react";
-import { ProductContextProps } from "../types/Product";
+import { ProductContextProps } from "../../types/Product";
 
 export const ProductContext = createContext<ProductContextProps>({
   products: [],
@@ -8,4 +8,5 @@ export const ProductContext = createContext<ProductContextProps>({
   setSelectedProducts: () => {},
   selectAll: false,
   setSelectAll: () => {},
+  updateProducts: () => {}
 });

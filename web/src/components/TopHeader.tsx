@@ -2,13 +2,11 @@ import { IconButton, Tooltip } from "@mui/material";
 import AddIcon from '@mui/icons-material/Add';
 import DeleteIcon from '@mui/icons-material/Delete';
 import RefreshIcon from '@mui/icons-material/Refresh';
-import useProductTableActions from "../hooks/useProductTableActions";
 import { useContext } from "react";
-import { ProductContext } from "../context/ProductContext";
+import { ProductContext } from "../context/Product/ProductContext";
 
 export default function TopHeader() {
-  const {updateProducts} = useProductTableActions();
-  const {selectedProducts} = useContext(ProductContext);
+  const { selectedProducts, updateProducts } = useContext(ProductContext);
 
   return (
     <div className="flex justify-between items-center p-4">
@@ -31,5 +29,5 @@ export default function TopHeader() {
         </Tooltip>
       </div>
     </div>
-  )
+  );
 }
