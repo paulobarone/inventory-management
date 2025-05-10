@@ -8,5 +8,8 @@ export const ProductContext = createContext<ProductContextProps>({
   setSelectedProducts: () => {},
   selectAll: false,
   setSelectAll: () => {},
-  updateProducts: () => {}
+  updateProducts: () => {},
+  addProduct: () => {},
+  editProduct: () => {},
+  deleteProducts: () => {},
 });

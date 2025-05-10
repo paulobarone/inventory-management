@@ -6,7 +6,7 @@ import { useContext } from "react";
 import { ProductContext } from "../context/Product/ProductContext";
 
 export default function TopHeader() {
-  const { selectedProducts, updateProducts } = useContext(ProductContext);
+  const { selectedProducts, updateProducts, deleteProducts } = useContext(ProductContext);
 
   return (
     <div className="flex justify-between items-center p-4">
@@ -23,7 +23,7 @@ export default function TopHeader() {
           </IconButton>
         </Tooltip>
         <Tooltip title="Deletar Produtos">
-          <IconButton disabled={selectedProducts.length < 2}>
+          <IconButton onClick={() => deleteProducts(selectedProducts)} disabled={selectedProducts.length < 2}>
             <DeleteIcon />
           </IconButton>
         </Tooltip>
