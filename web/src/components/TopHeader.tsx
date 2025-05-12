@@ -2,11 +2,10 @@ import { IconButton, Tooltip } from "@mui/material";
 import AddIcon from '@mui/icons-material/Add';
 import DeleteIcon from '@mui/icons-material/Delete';
 import RefreshIcon from '@mui/icons-material/Refresh';
-import { useContext } from "react";
-import { ProductContext } from "../context/Product/ProductContext";
+import useProduct from "../hooks/useProduct";
 
 export default function TopHeader() {
-  const { selectedProducts, updateProducts, deleteProducts } = useContext(ProductContext);
+  const { selectedProducts, updateProducts, deleteProducts } = useProduct();
 
   return (
     <div className="flex justify-between items-center p-4">

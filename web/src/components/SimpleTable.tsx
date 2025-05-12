@@ -1,13 +1,13 @@
-import { useContext, useState } from 'react';
+import { useState } from 'react';
 import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
 import EditIcon from "@mui/icons-material/Edit";
 import Button from './Button';
 import KeyboardArrowLeftIcon from '@mui/icons-material/KeyboardArrowLeft';
 import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
-import { ProductContext } from '../context/Product/ProductContext';
+import useProduct from '../hooks/useProduct';
 
 const SimpleTable = () => {
-  const { products, selectedProducts, setSelectedProducts, selectAll, setSelectAll } = useContext(ProductContext);
+  const { products, selectedProducts, setSelectedProducts, selectAll, setSelectAll } = useProduct();
   const [currentPage, setCurrentPage] = useState<number>(1);
   const productsPerPage = 10;
 
