@@ -3,9 +3,18 @@ import AddIcon from '@mui/icons-material/Add';
 import DeleteIcon from '@mui/icons-material/Delete';
 import RefreshIcon from '@mui/icons-material/Refresh';
 import useProduct from "../hooks/useProduct";
+import useDialog from "../hooks/useDialog";
+import { DialogConfig } from "../types/Dialog";
 
 export default function TopHeader() {
   const { selectedProducts, updateProducts, deleteProducts } = useProduct();
+  const { openDialog } = useDialog();
+
+  const addProductConfig: DialogConfig = {
+    type: 'form',
+    title: 'Adicionar Produto',
+    message: 'Preencha os campos abaixo para adicionar um novo produto.',
+  }
 
   return (
     <div className="flex justify-between items-center p-4">
@@ -17,7 +26,7 @@ export default function TopHeader() {
           </IconButton>
         </Tooltip>
         <Tooltip title="Adicionar Produto">
-          <IconButton>
+          <IconButton onClick={() => openDialog(addProductConfig)}>
             <AddIcon />
           </IconButton>
         </Tooltip>

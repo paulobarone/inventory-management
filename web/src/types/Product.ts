@@ -1,7 +1,3 @@
-export interface ProductProviderProps {
-  children: React.ReactNode;
-}
-
 export interface Product {
   name: string;
   category: string;
