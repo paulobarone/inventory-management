@@ -58,6 +58,7 @@ const DialogProvider: React.FC<DialogProviderProps> = ({ children }) => {
     closeDialog
   }), [isOpen, title, description, handleConfirm, handleCancel, confirmButtonText, cancelButtonText, openDialog, closeDialog]);
 
+  
   return (
     <DialogContext.Provider value={contextValue}>
       {children}
