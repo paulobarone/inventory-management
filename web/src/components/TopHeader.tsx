@@ -7,13 +7,19 @@ import useDialog from "../hooks/useDialog";
 import { DialogConfig } from "../types/Dialog";
 
 export default function TopHeader() {
-  const { selectedProducts, updateProducts, deleteProducts } = useProduct();
+  const { selectedProducts, updateProducts } = useProduct();
   const { openDialog } = useDialog();
 
   const addProductConfig: DialogConfig = {
     type: 'form',
     title: 'Adicionar Produto',
     message: 'Preencha os campos abaixo para adicionar um novo produto.',
+  }
+
+  const confirmDeleteConfig: DialogConfig = {
+    type: 'warning',
+    title: 'Deletar Produtos',
+    message: 'Você tem certeza que deseja deletar os produtos selecionados?',
   }
 
   return (
@@ -31,7 +37,7 @@ export default function TopHeader() {
           </IconButton>
         </Tooltip>
         <Tooltip title="Deletar Produtos">
-          <IconButton onClick={() => deleteProducts(selectedProducts)} disabled={selectedProducts.length < 2}>
+          <IconButton onClick={() => openDialog(confirmDeleteConfig)} disabled={selectedProducts.length < 2}>
             <DeleteIcon />
           </IconButton>
         </Tooltip>

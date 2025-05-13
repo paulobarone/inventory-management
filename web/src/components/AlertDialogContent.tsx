@@ -7,7 +7,7 @@ export default function AlertDialogContent({ title, message }: DialogProps) {
       <p>{message}</p>
       <div className="flex justify-end gap-2">
         <button className="btn">Cancelar</button>
-        <button className="btn btn-danger">Confirmar</button>
+        <button className="btn">Confirmar</button>
       </div>
     </div>
   )
