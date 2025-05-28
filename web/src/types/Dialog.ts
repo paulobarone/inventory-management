@@ -17,3 +17,17 @@ export interface DialogContextProps {
   openDialog: (config: DialogConfig) => void;
   closeDialog: () => void;
 }
+
+export interface DialogFormFields {
+  name: string;
+  category: string;
+  price: number;
+  quantity: number;
+}
+
+export interface DialogFormErrors {
+  name: string | null;
+  category: string | null;
+  price: string | null;
+  quantity: string | null;
+}

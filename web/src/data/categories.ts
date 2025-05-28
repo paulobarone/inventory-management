@@ -1,6 +1,6 @@
 export const categories = [
   { value: 'electronics', label: 'Eletrônicos' },
-  { value: 'clothes', label: 'Roupas' },
+  { value: 'clothing', label: 'Roupas' },
   { value: 'food', label: 'Alimentos' },
   { value: 'furniture', label: 'Móveis' },
   { value: 'books', label: 'Livros' },

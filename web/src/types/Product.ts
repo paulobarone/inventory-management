@@ -14,7 +14,7 @@ export interface ProductContextProps {
   setSelectAll: (selectAll: boolean) => void;
   updateProducts: () => void;
   addProduct: (newProduct: Product) => void;
-  editProduct: (productId: number) => void;
+  editProduct: (productId: number, editProduct: Product) => void;
   deleteProducts: (productsId: number[]) => void;
 }
 

@@ -12,8 +12,9 @@ export default function ProductProvider({ children }: { children: ReactNode }) {
     console.log('Adicionando produto:', newProduct);
   };
 
-  const editProduct = (productId: number) => {
+  const editProduct = (productId: number, editProduct: Product) => {
     console.log('Editando produto com ID:', productId);
+    console.log('Novos dados do produto:', editProduct);
   }
 
   const deleteProducts = (productsId: number[]) => {
