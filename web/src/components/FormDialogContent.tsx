@@ -1,5 +1,5 @@
 import { DialogProps } from "../types/Dialog";
-import Select from "react-select/creatable";
+import Select from "react-select";
 import { categories } from "../data/categories";
 import { CurrencyInput } from "react-currency-mask";
 import useDialog from "../hooks/useDialog";
@@ -96,17 +96,61 @@ export default function ProductForm({ title, message }: DialogProps) {
                 {...field}
                 inputId="category"
                 placeholder="Selecione uma categoria"
+                noOptionsMessage={() => "Categoria não encontrada"}
                 options={categories}
                 classNamePrefix="react-select"
+                isClearable
                 styles={{
+                  control: (base) => ({
+                    ...base,
+                    boxShadow: "0 1px 3px 0 rgba(0,0,0,0.1)",
+                    borderColor: "#d1d5db",
+                    borderRadius: 6,
+                    minHeight: 40,
+                    paddingLeft: 0,
+                    backgroundColor: "#fff",
+                    fontSize: "1rem",
+                    fontWeight: 400,
+                    color: "#364153",
+                  }),
+                  menu: (base) => ({
+                    ...base,
+                    zIndex: 50,
+                  }),
                   menuList: (base) => ({
                     ...base,
                     maxHeight: 150,
                   }),
+                  placeholder: (base) => ({
+                    ...base,
+                    color: "#9ca3af",
+                  }),
+                  singleValue: (base) => ({
+                    ...base,
+                    color: "#364153",
+                  }),
+                  input: (base) => ({
+                    ...base,
+                    color: "#364153",
+                  }),
+                  option: (base) => ({
+                    ...base,
+                    backgroundColor: "transparent",
+                    color: "#364153",
+                    cursor: "pointer",
+                  }),
+                  clearIndicator: (base) => ({
+                    ...base,
+                    color: "#9ca3af",
+                    ":hover": { color: "#ef4444" },
+                  }),
+                  dropdownIndicator: (base) => ({
+                    ...base,
+                    color: "#9ca3af",
+                  }),
                 }}
-                onChange={(option) => field.onChange(option?.value || "")}
+                onChange={(option) => field.onChange(option?.value ?? "")}
                 value={categories.find((c) => c.value === field.value) || null}
-                isClearable
               />
             )}
           />
