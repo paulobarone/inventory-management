@@ -4,6 +4,8 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { Product } from "../types/Product";
 import { DialogProps } from "../types/Dialog";
 import useDialog from "../hooks/useDialog";
+import Creatable from 'react-select/creatable';
+import { categories } from "../data/categories";
 
 export default function ProductForm({ title, message }: DialogProps) {
   const productSchema = z.object({
@@ -33,9 +35,7 @@ export default function ProductForm({ title, message }: DialogProps) {
       </div>
       <form className="flex flex-col gap-2" onSubmit={(e) => {e.preventDefault()}}>
         <div className="mb-4">
-          <label htmlFor="name" className="block cursor-pointer text-gray-700 text-sm font-bold mb-2">
-            Nome
-          </label>
+          <label htmlFor="name" className="block cursor-pointer text-gray-700 text-sm font-bold mb-2">Nome</label>
           <input
             {...register('name')}
             id="name"
@@ -45,21 +45,30 @@ export default function ProductForm({ title, message }: DialogProps) {
           {errors.name && <span className="text-red-500 text-xs italic">{errors.name.message}</span>}
         </div>
         <div className="mb-4">
-          <label htmlFor="category" className="block cursor-pointer text-gray-700 text-sm font-bold mb-2">
-            Categoria
-          </label>
-          <input
-            {...register('category')}
-            id="category"
-            type="text"
-            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-          />
+            <label htmlFor="category" className="block cursor-pointer text-gray-700 text-sm font-bold mb-2">Categoria</label>
+            <Creatable
+              isClearable
+              placeholder={'Selecione...'}
+              id="category"
+              options={categories}
+              formatCreateLabel={(inputValue) => `Criar "${inputValue}"`}
+              menuPlacement="auto"
+              menuPortalTarget={document.body}
+              maxMenuHeight={150}
+              styles={{
+                menu: (provided) => ({
+                ...provided,
+                maxHeight: 150,
+                overflowY: 'auto',
+                zIndex: 9999,
+                }),
+                menuPortal: (base) => ({ ...base, zIndex: 9999 }),
+              }}
+            />
           {errors.category && <span className="text-red-500 text-xs italic">{errors.category.message}</span>}
         </div>
         <div className="mb-4">
-          <label htmlFor="price" className="block cursor-pointer text-gray-700 text-sm font-bold mb-2">
-            Preço
-          </label>
+          <label htmlFor="price" className="block cursor-pointer text-gray-700 text-sm font-bold mb-2">Preço</label>
           <input
             {...register('price')}
             id="price"
@@ -69,9 +78,7 @@ export default function ProductForm({ title, message }: DialogProps) {
           {errors.price && <span className="text-red-500 text-xs italic">{errors.price.message}</span>}
         </div>
         <div className="mb-6">
-          <label htmlFor="quantity" className="block cursor-pointer text-gray-700 text-sm font-bold mb-2">
-            Quantidade
-          </label>
+          <label htmlFor="quantity" className="block cursor-pointer text-gray-700 text-sm font-bold mb-2">Quantidade</label>
           <input
             {...register('quantity')}
             id="quantity"
