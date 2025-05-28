@@ -71,7 +71,6 @@ export default function ProductForm({ title, message }: DialogProps) {
                 id="name"
                 type="text"
                 className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                autoFocus
               />
             )}
           />
@@ -104,7 +103,7 @@ export default function ProductForm({ title, message }: DialogProps) {
                   control: (base) => ({
                     ...base,
                     boxShadow: "0 1px 3px 0 rgba(0,0,0,0.1)",
-                    borderColor: "#d1d5db",
+                    borderColor: "#364153",
                     borderRadius: 6,
                     minHeight: 40,
                     paddingLeft: 0,
@@ -112,6 +111,10 @@ export default function ProductForm({ title, message }: DialogProps) {
                     fontSize: "1rem",
                     fontWeight: 400,
                     color: "#364153",
+                    ":hover": {
+                      borderColor: "#364153",
+                    },
+                    cursor: "text",
                   }),
                   menu: (base) => ({
                     ...base,
@@ -138,15 +141,25 @@ export default function ProductForm({ title, message }: DialogProps) {
                     backgroundColor: "transparent",
                     color: "#364153",
                     cursor: "pointer",
+                    ":hover": {
+                      backgroundColor: "#f3f4f6",
+                      color: "#364153",
+                    },
+                    ":active": {
+                      backgroundColor: "#e5e7eb",
+                      color: "#364153",
+                    },
                   }),
                   clearIndicator: (base) => ({
                     ...base,
                     color: "#9ca3af",
                     ":hover": { color: "#ef4444" },
+                    cursor: "pointer",
                   }),
                   dropdownIndicator: (base) => ({
                     ...base,
                     color: "#9ca3af",
+                    cursor: "pointer",
                   }),
                 }}
                 onChange={(option) => field.onChange(option?.value ?? "")}
