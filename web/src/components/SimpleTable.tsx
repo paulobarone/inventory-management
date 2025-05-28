@@ -28,7 +28,7 @@ const SimpleTable = () => {
   const handleSelectAllChange = () => {
     setSelectAll(!selectAll);
     if (!selectAll) {
-      setSelectedProducts(products.map((product) => product.id));
+      setSelectedProducts(products.map((_, index) => index));
     } else {
       setSelectedProducts([]);
     }
@@ -78,14 +78,14 @@ const SimpleTable = () => {
             </tr>
           </thead>
           <tbody className="bg-white divide-y divide-gray-200">
-            {currentProducts.map((product) => (
-              <tr key={product.id} className={selectedProducts.includes(product.id) ? 'bg-rose-50' : ''}>
+            {currentProducts.map((product, index) => (
+              <tr key={index} className={selectedProducts.includes(index) ? 'bg-rose-50' : ''}>
                 <td className="px-6 py-2 md:py-4 whitespace-nowrap">
                   <input
                     type="checkbox"
                     className="form-checkbox cursor-pointer h-4 w-4 text-indigo-600 transition duration-150 ease-in-out"
-                    checked={selectedProducts.includes(product.id)}
-                    onChange={() => handleCheckboxChange(product.id)}
+                    checked={selectedProducts.includes(index)}
+                    onChange={() => handleCheckboxChange(index)}
                   />
                 </td>
                 <td className="px-6 py-2 md:py-4 whitespace-nowrap text-sm text-gray-900">{product.name}</td>

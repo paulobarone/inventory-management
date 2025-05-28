@@ -1,9 +1,9 @@
-import React, { useMemo, useState } from 'react';
-import { Product, ProductProviderProps } from '../../types/Product';
+import { useMemo, useState, ReactNode } from 'react';
+import { Product } from '../../types/Product';
 import { products as productsData } from '../../data/products';
 import { ProductContext } from "./ProductContext";
 
-const ProductProvider: React.FC<ProductProviderProps> = ({ children }) => {
+export default function ProductProvider({ children }: { children: ReactNode }) {
   const [products, setProducts] = useState<Product[] | []>(productsData);
   const [selectedProducts, setSelectedProducts] = useState<number[]>([]);
   const [selectAll, setSelectAll] = useState<boolean>(false);
@@ -12,8 +12,9 @@ const ProductProvider: React.FC<ProductProviderProps> = ({ children }) => {
     console.log('Adicionando produto:', newProduct);
   };
 
-  const editProduct = (productId: number) => {
+  const editProduct = (productId: number, editProduct: Product) => {
     console.log('Editando produto com ID:', productId);
+    console.log('Novos dados do produto:', editProduct);
   }
 
   const deleteProducts = (productsId: number[]) => {
@@ -21,7 +22,6 @@ const ProductProvider: React.FC<ProductProviderProps> = ({ children }) => {
   };
 
   const updateProducts = () => {
-    console.log('Atualizando produtos');
     setProducts(productsData);
   };
 
@@ -44,5 +44,3 @@ const ProductProvider: React.FC<ProductProviderProps> = ({ children }) => {
     </ProductContext.Provider>
   );
 };
-
-export default ProductProvider;
